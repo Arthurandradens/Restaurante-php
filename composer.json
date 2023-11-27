@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "xrdebug/xrdebug": "^1.0"
+    }
+}
