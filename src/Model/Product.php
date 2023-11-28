@@ -4,7 +4,7 @@ namespace Model;
 
 class Product
 {
-    private int $id;
+    private ?int $id;
     private String $type;
     private String $name;
     private String $description;
@@ -12,12 +12,12 @@ class Product
     private String $image;
 
     public function __construct(
-        int $id,
+        ?int $id,
         string  $type,
         string  $name,
         string  $description,
         float   $price,
-        string  $image
+        string  $image = 'logo-serenatto.png'
     )
     {
         $this->id = $id;

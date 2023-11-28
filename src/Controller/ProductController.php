@@ -1,6 +1,7 @@
 <?php
 
 namespace Controller;
+use Model\Product;
 use Repository\ProductRepository;
 
 class ProductController
@@ -31,5 +32,18 @@ class ProductController
             // Tratar exceções aqui (por exemplo, logar ou retornar uma resposta de erro)
             echo "Erro: " . $e->getMessage();
         }
+    }
+
+    public function store(Product $product)
+    {
+        $sql = "INSERT INTO products (type,name,description,price,image) VALUES (?,?,?,?,?)";
+        $statement = $this->productRepository->getPdo()->prepare($sql);
+        $statement->bindValue(1,$product->getType());
+        $statement->bindValue(2,$product->getName());
+        $statement->bindValue(3,$product->getDescription());
+        $statement->bindValue(4,$product->getPrice());
+        $statement->bindValue(5,$product->getImage());
+
+        $statement->execute();
     }
 }

@@ -1,5 +1,8 @@
 {
     "require-dev": {
         "xrdebug/xrdebug": "^1.0"
-    }
+    },
+  "require": {
+    "ext-pdo": "*"
+  }
 }
