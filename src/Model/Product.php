@@ -63,4 +63,9 @@ class Product
         return 'R$ '.number_format($this->price,2);
     }
 
+    public function setImage(string $image): void
+    {
+        $this->image = $image;
+    }
+
 }

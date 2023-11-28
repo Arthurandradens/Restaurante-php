@@ -22,7 +22,6 @@ if (isset($_POST['registration'])){
     $productController = new ProductController($productRepository);
     $productController->store($newProduct);
 
-    header("Location: admin.php");
 }
 
 ?>

@@ -5,6 +5,8 @@ require "src/conection-db.php";
 require "src/Model/Product.php";
 require "src/Repository/ProductRepository.php";
 
+
+
 $productRepository = new ProductRepository($pdo);
 $data = $productRepository->productsData();
 
@@ -41,11 +43,11 @@ $data = $productRepository->productsData();
     <table>
       <thead>
         <tr>
-          <th>Produto</th>
-          <th>Tipo</th>
-          <th>Descricão</th>
-          <th>Valor</th>
-          <th colspan="2">Ação</th>
+          <th>Product</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th colspan="2">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -55,9 +57,9 @@ $data = $productRepository->productsData();
         <td><?= $product->getType() ?></td>
         <td><?= $product->getDescription() ?></td>
         <td><?= $product->getFormattedPrice() ?></td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
+        <td><a class="botao-editar" href="productEdit.php?id=<?= $product->getId() ?>">Edit</a></td>
         <td>
-          <form action="ProductDelete.php" method="post">
+          <form action="productDelete.php" method="post">
               <input type="hidden" name="id" value="<?= $product->getId() ?>">
             <input type="submit" class="botao-excluir" value="Delete">
           </form>
@@ -66,7 +68,7 @@ $data = $productRepository->productsData();
       <?php endforeach;?>
       </tbody>
     </table>
-  <a class="botao-cadastrar" href="cadastrar-produto.php">Cadastrar produto</a>
+  <a class="botao-cadastrar" href="registerProduct.php">Register product</a>
   <form action="#" method="post">
     <input type="submit" class="botao-cadastrar" value="Baixar Relatório"/>
   </form>

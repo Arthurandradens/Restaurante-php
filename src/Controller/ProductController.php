@@ -45,5 +45,35 @@ class ProductController
         $statement->bindValue(5,$product->getImage());
 
         $statement->execute();
+        header("Location: admin.php");
+    }
+
+    public function seach(int $id)
+    {
+        $sql = "SELECT * FROM products WHERE id = ?";
+        $statemant = $this->productRepository->getPdo()->prepare($sql);
+        $statemant->bindValue(1,$id);
+        $statemant->execute();
+
+
+        $data = $statemant->fetch(\PDO::FETCH_ASSOC);
+
+        return $this->productRepository->makeProduct($data);
+    }
+
+    public function edit(Product $product)
+    {
+        $sql = "UPDATE products SET type=?,name=?, description=?,price=?,image=? WHERE id = ?";
+        $statemant = $this->productRepository->getPdo()->prepare($sql);
+        $statemant->bindValue(1,$product->getType());
+        $statemant->bindValue(2,$product->getName());
+        $statemant->bindValue(3,$product->getDescription());
+        $statemant->bindValue(4,$product->getPrice());
+        $statemant->bindValue(5,$product->getImage());
+        $statemant->bindValue(6,$product->getId());
+
+        $statemant->execute();
+        header("Location: admin.php");
+
     }
 }
