@@ -9,33 +9,24 @@ require "src/Model/Product.php";
 require "src/Repository/ProductRepository.php";
 require "src/Controller/ProductController.php";
 
-
 $productRepository = new ProductRepository($pdo);
 $productController = new ProductController($productRepository);
 
-if (isset($_POST['edit'])) {
-    $name = isset($_POST['name']) ? $_POST['name'] : '';
 
-    $product = new Product(
-        $_POST['id'],
-        $_POST['type'],
-        $name,
-        $_POST['description'],
-        $_POST['price']
-    );
-    $file = $_FILES['image'] ;
-    if (isset($file)){
-        $product->setImage(uniqid().$_FILES['image']['tmp_name']);
-        move_uploaded_file($_FILES['image']['tmp_name'], 'img/'.$file['name']);
+if (isset($_POST['edit'])){
+    $product = new Product($_POST['id'], $_POST['type'], $_POST['name'], $_POST['description'], $_POST['price']);
+
+    if ($_FILES['image']['error'] == UPLOAD_ERR_OK){//  alterando a estrutura aqui
+        $product->setImage(uniqid() . $_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], $product->getImageDiretory());
     }
 
+
     $productController->edit($product);
-} else {
+
+}else{
     $product = $productController->seach($_GET['id']);
 }
-
-
-
 
 
 
@@ -90,9 +81,9 @@ if (isset($_POST['edit'])) {
       <input type="text" id="price" name="price" value="<?= $product->getPrice() ?>" required>
 
       <label for="image">send a product image</label>
-      <input type="file" name="image" accept="image/*" id="image" value="<?= $product->getImage() ?>">
+      <input type="file" name="image" accept="image/*" id="image" value="<?= $product->getImageDiretory() ?>">
         <input type="hidden" name="id" value="<?= $product->getId() ?>">
-      <input type="submit" name="edit" class="botao-cadastrar"  value="Editar produto"/>
+      <input type="submit" name="edit" class="botao-cadastrar"  value="Edit product"/>
     </form>
 
   </section>

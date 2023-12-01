@@ -10,13 +10,19 @@ require "src/Repository/ProductRepository.php";
 require "src/Controller/ProductController.php";
 
 if (isset($_POST['registration'])){
-    $newProduct = new Product(
-        null,
+    $newProduct = new Product(null,
         $_POST['type'],
         $_POST['name'],
         $_POST['description'],
-        $_POST['price'],
+        $_POST['price']
     );
+
+    if (isset($_FILES['image'])) {
+        $imageName = uniqid() . $_FILES['image']['name'];
+        $newProduct->setImage($imageName);
+        move_uploaded_file($_FILES['image']['tmp_name'], 'img/' . $imageName);
+
+    }
 
     $productRepository = new ProductRepository($pdo);
     $productController = new ProductController($productRepository);
@@ -52,7 +58,7 @@ if (isset($_POST['registration'])){
         <img class="ornaments" src="img/ornaments-coffee.png" alt="ornaments">
     </section>
     <section class="container-form">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data" >
 
             <label for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Enter the product name" required>

@@ -47,7 +47,7 @@ $lunchData = $productRepository->lunchOptions();
                 <?php foreach ($coffeeData as $coffee):?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $coffee->getImage() ?>">
+                            <img src="<?= $coffee->getImageDiretory() ?>">
                         </div>
                         <p><?= $coffee->getName() ?></p>
                         <p><?= $coffee->getDescription() ?></p>
@@ -65,7 +65,7 @@ $lunchData = $productRepository->lunchOptions();
                 <?php foreach ($lunchData as $lunch):?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $lunch->getImage() ?>">
+                            <img src="<?= $lunch->getImageDiretory() ?>">
                         </div>
                         <p><?= $lunch->getName() ?></p>
                         <p><?= $lunch->getDescription() ?></p>

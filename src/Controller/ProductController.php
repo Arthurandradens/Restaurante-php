@@ -63,17 +63,28 @@ class ProductController
 
     public function edit(Product $product)
     {
-        $sql = "UPDATE products SET type=?,name=?, description=?,price=?,image=? WHERE id = ?";
+        $sql = "UPDATE products SET type=?,name=?, description=?,price=? WHERE id = ?";
         $statemant = $this->productRepository->getPdo()->prepare($sql);
         $statemant->bindValue(1,$product->getType());
         $statemant->bindValue(2,$product->getName());
         $statemant->bindValue(3,$product->getDescription());
         $statemant->bindValue(4,$product->getPrice());
-        $statemant->bindValue(5,$product->getImage());
-        $statemant->bindValue(6,$product->getId());
-
+        $statemant->bindValue(5,$product->getId());
         $statemant->execute();
-        header("Location: admin.php");
 
+        if ($product->getImage() != 'logo-serenatto.png'){
+            $this->updateImage($product);
+        }
+
+        header('location: admin.php');
+    }
+
+    public function updateImage(Product $product)
+    {
+        $sql = "UPDATE products SET image = ? WHERE id = ?";
+        $statement = $this->productRepository->getPdo()->prepare($sql);
+        $statement->bindValue(1, $product->getImage());
+        $statement->bindValue(2, $product->getId());
+        $statement->execute();
     }
 }

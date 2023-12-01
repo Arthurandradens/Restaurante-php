@@ -69,7 +69,7 @@ $data = $productRepository->productsData();
       </tbody>
     </table>
   <a class="botao-cadastrar" href="registerProduct.php">Register product</a>
-  <form action="#" method="post">
+  <form action="pdfGenerator.php" method="post">
     <input type="submit" class="botao-cadastrar" value="Baixar Relatório"/>
   </form>
   </section>

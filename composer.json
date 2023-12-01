@@ -3,6 +3,7 @@
         "xrdebug/xrdebug": "^1.0"
     },
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+        "dompdf/dompdf": "^2.0"
   }
 }
