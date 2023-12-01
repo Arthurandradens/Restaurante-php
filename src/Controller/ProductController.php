@@ -1,6 +1,7 @@
 <?php
 
 namespace Controller;
+use Model\Product;
 use Repository\ProductRepository;
 
 class ProductController
@@ -31,5 +32,59 @@ class ProductController
             // Tratar exceções aqui (por exemplo, logar ou retornar uma resposta de erro)
             echo "Erro: " . $e->getMessage();
         }
+    }
+
+    public function store(Product $product)
+    {
+        $sql = "INSERT INTO products (type,name,description,price,image) VALUES (?,?,?,?,?)";
+        $statement = $this->productRepository->getPdo()->prepare($sql);
+        $statement->bindValue(1,$product->getType());
+        $statement->bindValue(2,$product->getName());
+        $statement->bindValue(3,$product->getDescription());
+        $statement->bindValue(4,$product->getPrice());
+        $statement->bindValue(5,$product->getImage());
+
+        $statement->execute();
+        header("Location: admin.php");
+    }
+
+    public function seach(int $id)
+    {
+        $sql = "SELECT * FROM products WHERE id = ?";
+        $statemant = $this->productRepository->getPdo()->prepare($sql);
+        $statemant->bindValue(1,$id);
+        $statemant->execute();
+
+
+        $data = $statemant->fetch(\PDO::FETCH_ASSOC);
+
+        return $this->productRepository->makeProduct($data);
+    }
+
+    public function edit(Product $product)
+    {
+        $sql = "UPDATE products SET type=?,name=?, description=?,price=? WHERE id = ?";
+        $statemant = $this->productRepository->getPdo()->prepare($sql);
+        $statemant->bindValue(1,$product->getType());
+        $statemant->bindValue(2,$product->getName());
+        $statemant->bindValue(3,$product->getDescription());
+        $statemant->bindValue(4,$product->getPrice());
+        $statemant->bindValue(5,$product->getId());
+        $statemant->execute();
+
+        if ($product->getImage() != 'logo-serenatto.png'){
+            $this->updateImage($product);
+        }
+
+        header('location: admin.php');
+    }
+
+    public function updateImage(Product $product)
+    {
+        $sql = "UPDATE products SET image = ? WHERE id = ?";
+        $statement = $this->productRepository->getPdo()->prepare($sql);
+        $statement->bindValue(1, $product->getImage());
+        $statement->bindValue(2, $product->getId());
+        $statement->execute();
     }
 }
